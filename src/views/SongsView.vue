@@ -27,9 +27,8 @@ export default {
 
 <v-sheet class="bg-deep-purple pa-12" height="100%">
 
-  <h1 class="brand">All Songs</h1>
-
   <v-card class="mx-auto px-6 py-8" max-width="900px">
+    <h1 class="brand">All Songs</h1>
     <Loader :isLoading="isLoading" v-if="isLoading" />
     <SongCard v-for="song in songs" v-bind="song" />
   </v-card>

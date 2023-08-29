@@ -64,10 +64,12 @@ export default {
 
     <div class="info">
       <p>
-        <ArtistLink 
-          v-for="artist in Artists" 
-          v-bind="artist" 
-        />
+        <v-chip-group>
+          <ArtistLink 
+            v-for="artist in Artists" 
+            v-bind="artist" 
+          />
+        </v-chip-group>
       </p>
       <p>
         <v-card-subtitle>

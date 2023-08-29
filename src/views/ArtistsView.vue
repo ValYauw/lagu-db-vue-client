@@ -27,9 +27,8 @@ export default {
 
 <v-sheet class="bg-deep-purple pa-12" height="100%">
 
-  <h1 class="brand">All Artists</h1>
-
   <v-card class="mx-auto px-6 py-8" max-width="900px">
+    <h1 class="brand">All Artists</h1>
     <Loader :isLoading="isLoading" v-if="isLoading" />
     <ArtistCard v-for="artist in artists" v-bind="artist" />
   </v-card>

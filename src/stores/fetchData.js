@@ -14,7 +14,6 @@ export const useFetchDataStore = defineStore('fetchData', {
       artists: [],
       artistsCount: null,
       artistsRetrieved: 0,
-
     }
   },
   getters: { },
@@ -63,5 +62,32 @@ export const useFetchDataStore = defineStore('fetchData', {
         this.isLoading = false;
       }
     },
+    async getSong(id) {
+      try {
+        this.isLoading = true;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/songs/${id}`
+        );
+        console.log(`${this.$SERVER_URL}/songs/${id}`, data);
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getArtist(id) {
+      try {
+        this.isLoading = true;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/artists/${id}`
+        );
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    }
   }
 })

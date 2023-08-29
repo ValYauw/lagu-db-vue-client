@@ -26,6 +26,14 @@ export default {
 
   <div class="artist-card">
 
+    <v-avatar
+      class="ma-3"
+      size="125"
+      rounded="0"
+    >
+      <v-img :src="imageURL"></v-img>
+    </v-avatar>
+
     <div>
 
       <v-card-title class="text-h5">
@@ -50,14 +58,6 @@ export default {
       </v-card-subtitle>
 
     </div>
-
-    <v-avatar
-      class="ma-3"
-      size="125"
-      rounded="0"
-    >
-      <v-img :src="imageURL"></v-img>
-    </v-avatar>
 
   </div>
 
