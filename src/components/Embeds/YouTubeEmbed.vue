@@ -5,11 +5,13 @@ export default {
   },
   data() {
     return {
-      player: null
+      player: null,
+      currentTime: 0
     }
   },
+  emits: ['sendCurrentTime'],
   watch: {
-    async videoId(newValue, oldValue) {
+    videoId(newValue, oldValue) {
       if (newValue) {
         // await this.$loadScript("/youtube-player.js");
         this.embed();
@@ -28,17 +30,22 @@ export default {
       tag.src = 'https://www.youtube.com/iframe_api';
       let firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      let player;
 
       window.onYouTubeIframeAPIReady = () => {
-        this.player = new YT.Player('player', {
+        player = new YT.Player('player', {
           height: '390',
           width: '640',
           videoId: this.videoId,
           playerVars: {
             'playsinline': 1
-          },
-          events: { }
+          }
         });
+        this.player = player;
+        setInterval(() => {
+          this.currentTime = player.getCurrentTime();
+          this.$emit('sendCurrentTime', this.currentTime);
+        }, 200);
       }
 
     }

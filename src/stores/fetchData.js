@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import parser from 'subtitles-parser-vtt';
 import router from '@/router';
 
 export const useFetchDataStore = defineStore('fetchData', {
@@ -68,7 +69,10 @@ export const useFetchDataStore = defineStore('fetchData', {
         let { data } = await axios.get(
           `${this.$SERVER_URL}/songs/${id}`
         );
-        console.log(`${this.$SERVER_URL}/songs/${id}`, data);
+        data.TimedLyrics = data.TimedLyrics.map(el => {
+          const obj = parser.fromVtt(el.timedLyrics, 'ms');
+          return obj;
+        });
         return data;
       } catch(err) {
         this.$fireErrorMessage(err);

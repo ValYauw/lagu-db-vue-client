@@ -6,6 +6,7 @@ import GenreCard from '../components/SongCard/GenreCard.vue';
 import PlayLink from '../components/SongCard/PlayLink.vue';
 import ArtistLink from '../components/SongCard/ArtistLink.vue';
 import YouTubeEmbed from '../components/Embeds/YouTubeEmbed.vue';
+import TimedLyrics from '../components/SongDetails/TimedLyrics.vue';
 
 export default {
   name: 'SongDetailView',
@@ -13,11 +14,13 @@ export default {
     GenreCard,
     PlayLink,
     ArtistLink,
-    YouTubeEmbed
+    YouTubeEmbed,
+    TimedLyrics
   },
   data() {
     return {
-      song: null
+      song: null,
+      currentTime: null
     }
   },
   props: {
@@ -33,6 +36,9 @@ export default {
       return this.song?.aliases ? this.song.aliases?.map(alias => {
         return `<span class="alias">${alias}</span>`
       }).join(', ') : null;
+    },
+    timedLyrics() {
+      return this.song?.TimedLyrics?.length ? this.song.TimedLyrics[0] : null;
     },
     youtubeVideoUrl() {
       const regex = [
@@ -56,10 +62,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useFetchDataStore, ['getSong'])
+    ...mapActions(useFetchDataStore, ['getSong']),
+    setCurrentPlayTime(currentTime) {
+      this.currentTime = currentTime;
+    }
   },
   async created() {
     this.song = await this.getSong(this.id);
+    console.log(this.song.TimedLyrics);
   }
 }
 </script>
@@ -72,13 +82,23 @@ export default {
 
   <div>
 
-    <YouTubeEmbed :videoId="youtubeVideoUrl" />
+    <YouTubeEmbed 
+      :videoId="youtubeVideoUrl" 
+      @send-current-time="setCurrentPlayTime"
+    />
 
     <PlayLink
       v-for="playLink in song?.PlayLinks" 
       v-bind="playLink" 
     />
 
+  </div>
+
+  <div>
+    <TimedLyrics 
+      :timedLyrics="timedLyrics"
+      :currentTime="currentTime"
+    />
   </div>
 
   <div>
