@@ -1,6 +1,15 @@
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useSessionStore } from '@/stores/session';
+
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  computed: {
+    ...mapState(useSessionStore, ['isLoggedIn'])
+  },
+  methods: {
+    ...mapActions(useSessionStore, ['logout'])
+  }
 }
 </script>
 
@@ -20,12 +29,16 @@ export default {
       Browse
     </v-btn>
 
-    <v-btn>
+    <v-btn v-if="!isLoggedIn">
       Login
     </v-btn>
 
-    <v-btn>
+    <v-btn v-if="!isLoggedIn">
       Register
+    </v-btn>
+
+    <v-btn v-if="isLoggedIn" @click="logout">
+      Logout
     </v-btn>
 
   </v-app-bar>
