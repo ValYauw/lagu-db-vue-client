@@ -10,8 +10,6 @@ export default {
 
 <template>
 
-<Navbar />
-
 <v-sheet class="bg-deep-purple pa-12" height="100%">
   
   <h1 class="brand">Sign up to LaguDB</h1>

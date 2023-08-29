@@ -1,0 +1,44 @@
+a:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+a:hover {
+  opacity: 1;
+}
+
+a:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.loader {
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.song-card {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(221, 160, 221, 0.592);
+}
+
+.song-card > .playlinks {
+  max-width: 400px;
+  min-width: 50px;
+  width: 10%;
+}
+
+.song-card > .title {
+  width: 60%;
+}
+
+.song-card > .info {
+  width: 30%;
+}

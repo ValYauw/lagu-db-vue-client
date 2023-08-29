@@ -14,7 +14,7 @@ export default function navigationGuard(to, from) {
 
   // Auto-logout client if token has expired
   if (hasToken) {
-    const decodedToken = jwt_decode(token);
+    const decodedToken = jwt_decode(localStorage.getItem('access_token'));
     isAuthenticated = (decodedToken.exp * 1000) > new Date().getTime();
     if (!isAuthenticated) {
       store.$toast.open({

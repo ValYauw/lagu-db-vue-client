@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import { useSessionStore } from '@/stores/session';
+import { RouterLink } from 'vue-router';
 
 export default {
   name: 'Navbar',
@@ -26,21 +27,36 @@ export default {
     <v-app-bar-title>LaguDB</v-app-bar-title>
 
     <v-btn>
-      Browse
+      <v-icon icon="mdi-playlist-music-outline"></v-icon>
+      <RouterLink to="/songs" class="navlink">
+        Browse
+      </RouterLink>
     </v-btn>
 
     <v-btn v-if="!isLoggedIn">
-      Login
+      <v-icon icon="mdi-login"></v-icon>
+      <RouterLink to="/login" class="navlink">
+        Login
+      </RouterLink>
     </v-btn>
 
     <v-btn v-if="!isLoggedIn">
-      Register
+      <RouterLink to="/register" class="navlink">
+        Register
+      </RouterLink>
     </v-btn>
 
     <v-btn v-if="isLoggedIn" @click="logout">
+      <v-icon icon="mdi-logout"></v-icon>
       Logout
     </v-btn>
 
   </v-app-bar>
 
 </template>
+
+<style scoped>
+  .navlink:link {
+    opacity: 1;
+  }
+</style>
