@@ -105,6 +105,30 @@ export const useFetchDataStore = defineStore('fetchData', {
       } finally {
         this.isLoading = false;
       }
+    },
+    async getRecentYouTubeVideos(channelUrl) {
+      try {
+        let url = `${this.$SERVER_URL}/youtube/artists`;
+        let { data } = await axios.post(url, {
+          channelUrl
+        });
+        return data;
+      } catch(err) {
+        console.log("Failed to call YouTube API");
+        return null;
+      }
+    },
+    async getPopularRatedVocaDBSongs(vocadbUrl) {
+      try {
+        let url = `${this.$SERVER_URL}/vocadb/artists`;
+        let { data } = await axios.post(url, {
+          vocadbUrl
+        });
+        return data;
+      } catch(err) {
+        console.log("Failed to call VocaDB API");
+        return null;
+      }
     }
   }
 })

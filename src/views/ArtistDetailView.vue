@@ -5,17 +5,28 @@ import { useFetchDataStore } from '@/stores/fetchData';
 import ArtistExternalLinks from '../components/ArtistCard/ArtistExternalLinks.vue';
 import SongCard from '../components/SongCard/SongCard.vue';
 
+import YouTubeReport from '../components/ArtistDetails/YouTubeReport.vue';
+import VocadbReport from '../components/ArtistDetails/VocadbReport.vue';
+
 export default {
   name: 'ArtistDetailView',
   components: {
     ArtistExternalLinks,
-    SongCard
+    SongCard,
+    YouTubeReport,
+    VocadbReport
   },
   data() {
     return {
       artist: null,
       songs: [],
-      albums: []
+      count: null,
+      numPages: 0,
+      currentPage: 0,
+      // albums: []
+
+      ytRecentVideos: null,
+      vocadbReport: null
     }
   },
   props: {
@@ -23,6 +34,9 @@ export default {
   },
   computed: {
     ...mapState(useFetchDataStore, ['isLoading']),
+    pageData() {
+      return this.songs[this.currentPage - 1];
+    },
     renderedDate() {
       return new Intl.DateTimeFormat('en-US', { 
         dateStyle: 'long' 
@@ -35,13 +49,36 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useFetchDataStore, ['getArtist', 'getSongsByArtist', 'getAlbumsByArtist']),
+    ...mapActions(useFetchDataStore, [
+      'getArtist', 'getSongsByArtist', 'getAlbumsByArtist',
+      'getRecentYouTubeVideos', 'getPopularRatedVocaDBSongs'
+    ]),
   },
-  async created() {
+  watch: {
+    artist(newValue, oldValue) {
+      for (let link of newValue?.ArtistLinks) {
+        const { webURL } = link;
+        if (/^https?:\/\/www\.youtube\.com\/channel\//.exec(webURL)) {
+          this.getRecentYouTubeVideos(webURL)
+            .then((data) => this.ytRecentVideos = data);
+        } else if (/^https?:\/\/vocadb.net\/Ar\//.exec(webURL)) {
+          this.getPopularRatedVocaDBSongs(webURL)
+            .then((data) => this.vocadbReport = data);
+        }
+      }
+    }
+  },
+  created() {
     const id = this.id;
     this.getArtist(id).then((data) => this.artist = data);
-    this.getSongsByArtist(id).then((data) => this.songs = data);
-    this.getAlbumsByArtist(id).then((data) => this.albums = data);
+    this.getSongsByArtist(id).then((data) => {
+      this.count = data.count;
+      this.numPages = Math.ceil(data.count / 20);
+      this.songs = new Array(this.numPages).fill(null);
+      this.songs[0] = data.data;
+      this.currentPage = 1;
+    });
+    // this.getAlbumsByArtist(id).then((data) => this.albums = data);
   }
 }
 </script>
@@ -87,11 +124,32 @@ export default {
 
     </div>
 
-    <Loader :isLoading="isLoading" v-if="isLoading" />
-    <SongCard
-      v-for="song in songs.data"
-      v-bind="song"
-    />
+    <div class="items">
+
+      <YouTubeReport v-bind="ytRecentVideos" v-if="ytRecentVideos" />
+
+      <VocadbReport v-bind="{data:vocadbReport}" v-if="vocadbReport" />
+
+      <v-card elevation="5">
+
+        <v-card-title>
+          All songs by artist
+        </v-card-title>
+        <Loader :isLoading="isLoading" v-if="isLoading" />
+        <SongCard
+          v-for="song in pageData" 
+          v-bind="song"
+        />
+
+        <v-pagination 
+          v-if="count"
+          v-model="currentPage"
+          :length="numPages"
+        />
+
+      </v-card>
+
+    </div>
 
   </v-card>
 
@@ -107,5 +165,11 @@ export default {
   align-items: center;
   gap: 0px 40px;
   margin-bottom: 20px;
+}
+.items {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px 0px;
 }
 </style>
