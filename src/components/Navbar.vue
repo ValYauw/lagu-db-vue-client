@@ -24,7 +24,11 @@ export default {
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
     </template>
 
-    <v-app-bar-title>LaguDB</v-app-bar-title>
+    <v-app-bar-title>
+      <RouterLink to="/" class="navlink">
+        LaguDB
+      </RouterLink>
+    </v-app-bar-title>
 
     <v-btn>
       <v-icon icon="mdi-playlist-music-outline"></v-icon>

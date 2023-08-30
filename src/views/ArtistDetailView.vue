@@ -2,13 +2,13 @@
 import { mapState, mapActions } from 'pinia';
 import { useFetchDataStore } from '@/stores/fetchData';
 
-import ArtistLink from '../components/ArtistCard/ArtistLink.vue';
+import ArtistExternalLinks from '../components/ArtistCard/ArtistExternalLinks.vue';
 import SongCard from '../components/SongCard/SongCard.vue';
 
 export default {
   name: 'ArtistDetailView',
   components: {
-    ArtistLink,
+    ArtistExternalLinks,
     SongCard
   },
   data() {
@@ -22,6 +22,7 @@ export default {
     id: String
   },
   computed: {
+    ...mapState(useFetchDataStore, ['isLoading']),
     renderedDate() {
       return new Intl.DateTimeFormat('en-US', { 
         dateStyle: 'long' 
@@ -49,10 +50,22 @@ export default {
 
 <v-sheet class="bg-deep-purple pa-12" height="100%">
 
-  <v-card class="mx-auto">
+  <v-card class="mx-auto px-6 py-8" max-width="900px">
 
-    <div>
-      <img :src="artist?.imageURL" width="200px" height="200px" />
+    <div class="flex-container">
+
+      <div>
+        <v-img 
+          :src="artist?.imageURL" 
+          :width="300" 
+          aspect-ratio="1/1"
+          cover
+        >
+        </v-img>
+      </div>
+
+      <ArtistExternalLinks :ArtistLinks="artist?.ArtistLinks" />
+
     </div>
 
     <div>
@@ -72,21 +85,27 @@ export default {
         {{ artist?.description }}
       </v-card-text>
 
-      <v-card-text>
-        <ArtistLink v-for="link in artist?.ArtistLinks" v-bind="link" />
-      </v-card-text>
-
     </div>
 
-  </v-card>
-
-  <v-card class="mx-auto">
+    <Loader :isLoading="isLoading" v-if="isLoading" />
     <SongCard
       v-for="song in songs.data"
       v-bind="song"
     />
-  </v-card>  
+
+  </v-card>
 
 </v-sheet>
 
 </template>
+
+<style scoped>
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0px 40px;
+  margin-bottom: 20px;
+}
+</style>
