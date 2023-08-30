@@ -116,6 +116,18 @@ export const useFetchDataStore = defineStore('fetchData', {
       } finally {
         this.isLoading = false;
       }
+    },
+    async search(term, entity='song') {
+      try {
+        this.isLoading = true;
+        let url = `${this.$SERVER_URL}/search/${entity}s?title=${term}`;
+        let { data } = await axios.get(url);
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 })

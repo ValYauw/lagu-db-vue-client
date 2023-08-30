@@ -73,7 +73,7 @@ export default {
       </v-card-text>
 
       <v-card-text>
-        <ArtistLink v-for="link in artist.ArtistLinks" v-bind="link" />
+        <ArtistLink v-for="link in artist?.ArtistLinks" v-bind="link" />
       </v-card-text>
 
     </div>
