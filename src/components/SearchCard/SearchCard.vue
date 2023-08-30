@@ -5,8 +5,7 @@ export default {
     entity: String,
     id: Number,
     name: String,
-    alias: String,
-    description: [String, null, undefined]
+    alias: String
   }
 }
 </script>
@@ -31,12 +30,6 @@ export default {
         </p>
       </v-card-subtitle>
 
-    </div>
-
-    <div class="info" v-if="description">
-      <v-card-text>
-        {{ description }}
-      </v-card-text>
     </div>
     
   </div>

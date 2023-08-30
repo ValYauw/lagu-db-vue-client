@@ -31,6 +31,7 @@ export default {
       let currentTime = newValue * 1000;
       let currentTimedLyricsIndex = this.currentTimedLyricsIndex;
       let lastTimedLyricsIndex = currentTimedLyricsIndex;
+      if (!this.timedLyrics) return;
       let { startTime, endTime } = this.timedLyrics[currentTimedLyricsIndex ? currentTimedLyricsIndex : 0];
 
       // still on current line

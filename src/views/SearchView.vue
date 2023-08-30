@@ -2,6 +2,7 @@
 import { mapState, mapActions } from 'pinia';
 import { useFetchDataStore } from '@/stores/fetchData';
 
+import Loader from '../components/Loader.vue';
 import SearchCard from '../components/SearchCard/SearchCard.vue';
 
 export default {
@@ -11,12 +12,20 @@ export default {
       term: '',
       entity: 'Song',
       count: null,
-      retrieved: null,
+      numPages: 0,
+      currentPage: 0,
       data: []
     }
   },
   components: {
+    Loader,
     SearchCard
+  },
+  computed: {
+    ...mapState(useFetchDataStore, ['isLoading']),
+    pageData() {
+      return this.data[this.currentPage - 1];
+    }
   },
   methods: {
     ...mapActions(useFetchDataStore, ['search']),
@@ -27,14 +36,24 @@ export default {
       if (!term) return;
       const data = await this.search(term, entity.toLowerCase());
       this.count = data.count;
-      this.data = data.data;
-      this.retrieved = data.data.length;
-      console.log(this.data);
+      this.numPages = Math.ceil(data.count / 20);
+      this.data = new Array(this.numPages).fill(null);
+      this.data[0] = data.data;
+      this.currentPage = 1;
+      console.log(this.pageData);
     }
   },
   watch: {
     entity(newValue, oldValue) {
       this.prepareToSearch();
+    },
+    async currentPage(newValue, oldValue) {
+      if (!this.data[newValue - 1]) {
+        const data = await this.search(term, entity.toLowerCase(), newValue);
+        this.count = data.count;
+        this.numPages = Math.ceil(data.count / 20);
+        this.data[newValue - 1] = data.data;
+      }
     }
   }
 }
@@ -76,11 +95,23 @@ export default {
 
   </v-toolbar>
 
-  <v-card class="mx-auto" v-if="count !== null">
-    <SearchCard 
-      v-for="datum in data"
-      v-bind="{entity: this.entity, ...datum}"
+  <v-card class="mx-auto px-6 py-8">
+
+    <Loader :isLoading="isLoading" v-if="isLoading" />
+
+    <div>
+      <SearchCard 
+        v-for="datum in pageData"
+        v-bind="{entity: this.entity, ...datum}"
+      />
+    </div>
+
+    <v-pagination 
+      v-if="count"
+      v-model="currentPage"
+      :length="numPages"
     />
+
   </v-card>
 
 </v-sheet>

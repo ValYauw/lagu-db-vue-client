@@ -16,7 +16,7 @@ export default {
         return `<span class="alias">${alias}</span>`
       }).join(', ') : null;
     }
-  }
+  },
 }
 </script>
 

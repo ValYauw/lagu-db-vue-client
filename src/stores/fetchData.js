@@ -5,58 +5,35 @@ import router from '@/router';
 
 export const useFetchDataStore = defineStore('fetchData', {
   state: () => {
-    return {
-      isLoading: false,
-
-      songs: [],
-      songsCount: null,
-      songsRetrieved: 0,
-
-      artists: [],
-      artistsCount: null,
-      artistsRetrieved: 0,
+    return { 
+      isLoading: false
     }
   },
   getters: { },
   actions: {
-    async getSongs(refresh=false) {
+    async getSongs(page=1) {
       try {
-        if (refresh) this.songsCount = null;
         this.isLoading = true;
-        let query = this.songsCount === null ? '' : `?offset=${this.songsRetrieved}`;
+        let query = this.page <= 1 ? '' : `?offset=${(page - 1) * 20}`;
+        console.log(`${this.$SERVER_URL}/songs${query}`);
         let { data } = await axios.get(
           `${this.$SERVER_URL}/songs${query}`
         );
-        this.songsCount = data.count;
-        if (this.songsCount === null) {
-          this.songs = data.data;
-          this.songsRetrieved = data.data.length;
-        } else {
-          this.songs.push(...data.data);
-          this.songsRetrieved += data.data.length;
-        }
+        return data;
       } catch(err) {
         this.$fireErrorMessage(err);
       } finally {
         this.isLoading = false;
       }
     },
-    async getArtists(refresh=false) {
+    async getArtists(page=1) {
       try {
-        if (refresh) this.artistsCount = null;
         this.isLoading = true;
-        let query = this.artistsCount === null ? '' : `?offset=${this.artistsRetrieved}`;
+        let query = this.page <= 1 ? '' : `?offset=${(page - 1) * 20}`;
         let { data } = await axios.get(
           `${this.$SERVER_URL}/artists${query}`
         );
-        this.artistsCount = data.count;
-        if (this.artistsCount === null) {
-          this.artists = data.data;
-          this.artistsRetrieved = data.data.length;
-        } else {
-          this.artists.push(...data.data);
-          this.artistsRetrieved += data.data.length;
-        }
+        return data;
       } catch(err) {
         this.$fireErrorMessage(err);
       } finally {
@@ -117,7 +94,7 @@ export const useFetchDataStore = defineStore('fetchData', {
         this.isLoading = false;
       }
     },
-    async search(term, entity='song') {
+    async search(term, entity='song', page=1) {
       try {
         this.isLoading = true;
         let url = `${this.$SERVER_URL}/search/${entity}s?title=${term}`;
