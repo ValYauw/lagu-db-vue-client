@@ -36,7 +36,7 @@ export default {
 
 <v-card class="mx-auto">
 
-  <div class="song-card">
+  <div class="bg-deep-orange-lighten-5 song-card">
 
     <div class="playlinks">
       <PlayLink 

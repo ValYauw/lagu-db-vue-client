@@ -74,9 +74,9 @@ export default {
 
 <template>
 
-<v-sheet class="bg-deep-purple pa-12" height="100%">
+<v-sheet class="bg-deep-orange-darken-4 pa-12" height="100%">
 
-  <v-card class="mx-auto" id="container">
+  <v-card class="bg-brown-lighten-5 mx-auto" id="container">
 
     <v-card-title class="text-h5">
       {{ song?.name }}
@@ -108,7 +108,7 @@ export default {
 
       </div>
 
-      <div id="right-container">
+      <div id="right-container" class="bg-brown-lighten-4">
 
         <v-card-title class="text-h5">Lyrics</v-card-title>
 

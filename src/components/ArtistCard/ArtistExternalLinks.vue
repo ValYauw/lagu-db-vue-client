@@ -9,7 +9,7 @@ export default {
 
 <template>
 
-<v-list lines="one" class="elevation-3">
+<v-list lines="one" class="bg-blue-grey-lighten-5 elevation-3">
   <v-list-item
     v-for="(link, index) in ArtistLinks"
     :key="index"

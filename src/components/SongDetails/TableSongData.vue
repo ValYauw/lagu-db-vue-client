@@ -20,7 +20,7 @@ export default {
 
 <template>
 
-<v-table class="elevation-5">
+<v-table class="bg-brown-lighten-4 elevation-5">
   <tbody>
     <tr>
       <td>Play Links:</td>

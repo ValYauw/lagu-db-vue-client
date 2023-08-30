@@ -92,9 +92,9 @@ export default {
 
 <template>
 
-<v-sheet class="bg-deep-purple pa-12" height="100%">
+<v-sheet class="bg-deep-orange-darken-4 pa-12" height="100%">
 
-  <v-card class="mx-auto px-6 py-8" max-width="900px">
+  <v-card class="bg-brown-lighten-5 mx-auto px-6 py-8" max-width="900px">
 
     <div class="flex-container">
 
@@ -137,7 +137,7 @@ export default {
 
       <VocadbReport v-bind="{data:vocadbReport}" v-if="vocadbReport" />
 
-      <v-card elevation="5">
+      <v-card class="bg-deep-orange-lighten-4 elevation-5">
 
         <v-card-title>
           All songs by artist

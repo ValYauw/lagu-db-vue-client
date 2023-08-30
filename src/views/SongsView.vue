@@ -49,9 +49,9 @@ export default {
 
 <template>
 
-<v-sheet class="bg-deep-purple pa-12" height="100%">
+<v-sheet class="bg-deep-orange-darken-4 pa-12" height="100%">
 
-  <v-card class="mx-auto px-6 py-8" max-width="900px">
+  <v-card class="bg-brown-lighten-5 mx-auto px-6 py-8" max-width="900px">
     <h1 class="brand">All Songs</h1>
 
     <Loader :isLoading="isLoading" v-if="isLoading" />

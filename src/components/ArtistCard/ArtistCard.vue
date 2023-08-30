@@ -24,7 +24,7 @@ export default {
 
 <v-card class="mx-auto">
 
-  <div class="artist-card">
+  <div class="bg-deep-orange-lighten-5 artist-card">
 
     <v-avatar
       class="ma-3"

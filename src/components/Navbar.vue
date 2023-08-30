@@ -17,7 +17,7 @@ export default {
 <template>
 
   <v-app-bar
-    color="teal-darken-4"
+    color="deep-orange-darken-1"
   >
 
     <template v-slot:prepend>

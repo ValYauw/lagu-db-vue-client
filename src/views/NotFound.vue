@@ -6,7 +6,7 @@ export default {
 
 <template>
 
-<v-sheet class="bg-deep-purple pa-12" height="100%">
+<v-sheet class="bg-deep-orange-darken-4 pa-12" height="100%">
 
   <v-card class="mx-auto">
 

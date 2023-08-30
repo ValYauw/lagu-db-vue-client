@@ -26,7 +26,7 @@ a:visited {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: rgba(221, 160, 221, 0.592);
+  border: solid 1px #BF360C;
 }
 
 .song-card > .playlinks {

@@ -16,7 +16,7 @@ export default {
 
 <template>
 
-<v-card class="mx-auto elevation-5" max-width="900px">
+<v-card class="bg-blue-grey-lighten-4 mx-auto elevation-5" max-width="900px">
 
   <v-card-title>
     Recent YouTube Uploads
