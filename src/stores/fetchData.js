@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import parser from 'subtitles-parser-vtt';
 import router from '@/router';
 
 export const useFetchDataStore = defineStore('fetchData', {
