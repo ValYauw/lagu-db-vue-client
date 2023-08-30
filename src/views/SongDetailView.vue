@@ -2,18 +2,14 @@
 import { mapState, mapActions } from 'pinia';
 import { useFetchDataStore } from '@/stores/fetchData';
 
-import GenreCard from '../components/SongCard/GenreCard.vue';
-import PlayLink from '../components/SongCard/PlayLink.vue';
-import ArtistLink from '../components/SongCard/ArtistLink.vue';
 import YouTubeEmbed from '../components/Embeds/YouTubeEmbed.vue';
 import TimedLyrics from '../components/SongDetails/TimedLyrics.vue';
+import TableSongData from '../components/SongDetails/TableSongData.vue';
 
 export default {
   name: 'SongDetailView',
   components: {
-    GenreCard,
-    PlayLink,
-    ArtistLink,
+    TableSongData,
     YouTubeEmbed,
     TimedLyrics
   },
@@ -77,30 +73,7 @@ export default {
 
 <v-sheet class="bg-deep-purple pa-12" height="100%">
 
-  <v-card class="mx-auto">
-
-  <div>
-
-    <YouTubeEmbed
-      :videoId="youtubeVideoUrl" 
-      @send-current-time="setCurrentPlayTime"
-    />
-
-    <PlayLink
-      v-for="playLink in song?.PlayLinks" 
-      v-bind="playLink" 
-    />
-
-  </div>
-
-  <div>
-    <TimedLyrics 
-      :timedLyrics="timedLyrics"
-      :currentTime="currentTime"
-    />
-  </div>
-
-  <div>
+  <v-card class="mx-auto" id="container">
 
     <v-card-title class="text-h5">
       {{ song?.name }}
@@ -113,24 +86,74 @@ export default {
       </p>
     </v-card-subtitle>
 
-    <v-chip-group>
-      <ArtistLink 
-        v-for="artist in song?.Artists" 
-        v-bind="artist" 
-      />
-    </v-chip-group>
+    <v-divider></v-divider>
 
-    <v-chip-group>
-      <GenreCard 
-        v-for="genre in song?.Genres" 
-        v-bind="genre" 
-      />
-    </v-chip-group>
-    
-  </div>
+    <div id="flex-container">
+
+      <div id="playlinks" class="w-auto d-flex">
+
+        <YouTubeEmbed
+          :videoId="youtubeVideoUrl" 
+          @send-current-time="setCurrentPlayTime"
+        />
+
+        <div id="info-table">
+          <TableSongData 
+            v-bind="{PlayLinks: song?.PlayLinks, Artists: song?.Artists, Genres: song?.Genres}"
+          />
+        </div>
+
+      </div>
+
+      <div id="right-container">
+
+        <TimedLyrics 
+          :timedLyrics="timedLyrics"
+          :currentTime="currentTime"
+        />
+        
+      </div>
+
+    </div>
 
   </v-card>
 
 </v-sheet>
 
 </template>
+
+<style scoped>
+#container {
+  padding: 20px;
+}
+#playlinks { 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: fit-content;
+  margin-right: 20px;
+}
+#right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: auto;
+  margin: 0px;
+  max-width: 500px;
+  height: 390px;
+  max-height: 80vh;
+  border: solid 1px rgba(128, 128, 128, 0.8);
+}
+#flex-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+#info-table {
+  margin-top: 10px;
+}
+</style>

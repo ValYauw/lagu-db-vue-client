@@ -84,24 +84,23 @@ export default {
 <template>
 <!-- <div>{{ currentTimedLyrics?.text }}</div> -->
 
-  <v-list lines="one" id="lyrics">
+  <div v-if="!timedLyrics" class="mx-auto my-auto">
+    <v-card-title>
+      Sorry!
+    </v-card-title>
+    <v-card-subtitle>
+      We couldn't find any lyrics for this song in the database.
+    </v-card-subtitle>
+  </div>
+
+  <v-list id="lyrics" lines="one" class="overflow-y-auto elevation-5" v-else>
     <v-list-item
       v-for="(timedLyric, index) in timedLyrics"
       :key="index"
-      :class="(index === currentTimedLyricsIndex) ? 'active' : null"
-      :title="timedLyric.text"
+      :active="index === currentTimedLyricsIndex"
     >
+      {{ timedLyric.text }}
     </v-list-item>
   </v-list>
 
 </template>
-
-<style scoped>
-#lyrics {
-  height: 80vh;
-  overflow-y: scroll;
-}
-#lyrics > .active {
-  background-color: rgba(178, 166, 56, 0.6);
-}
-</style>

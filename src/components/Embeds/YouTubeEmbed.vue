@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       player: null,
-      currentTime: 0
+      currentTime: 0,
     }
   },
   emits: ['sendCurrentTime'],
@@ -14,34 +14,31 @@ export default {
     videoId(newValue, oldValue) {
       if (newValue) {
         // await this.$loadScript("/youtube-player.js");
-        this.embed();
+        console.log('Changed value', newValue, oldValue);
+        this.embed(newValue);
       } 
     }
   },
   methods: {
-    embed() {
+    embed(videoId) {
 
-      if (!this.videoId) {
-        document.getElementById('player').innerHTML = 'No video available';
+      console.log("Embedding", videoId, this.player);
+
+      if (!videoId) {
         return;
       }
 
-      let tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      let firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       let player;
 
-      window.onYouTubeIframeAPIReady = () => {
+      const setupPlayer = () => {
         player = new YT.Player('player', {
           height: '390',
           width: '640',
-          videoId: this.videoId,
+          videoId: videoId,
           playerVars: {
             'playsinline': 1
           }
         });
-        this.player = player;
         setInterval(() => {
           if (!player) return;
           let currentTime = player?.getCurrentTime();
@@ -50,19 +47,41 @@ export default {
         }, 200);
       }
 
+      let tag;
+      if (document.getElementById('yt-iframe-src')) {
+        // If already loaded
+        tag = document.getElementById('yt-iframe-src');
+        setupPlayer();
+      } else {
+
+        // Set up YT API scripts
+        tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.id = "yt-iframe-src";
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Load player on ready
+        window.onYouTubeIframeAPIReady = setupPlayer;
+      }
+
     }
   },
   created() {
-    console.log('Loading for the first time', this.videoId);
     if (this.videoId) {
       this.embed();
     } 
+  },
+  async unmounted() {
+    await this.player.destroy();
   }
 }
 </script>
 
 <template>
-  <div id="player" :video-src="videoId"></div>
+  <div id="player" :video-src="videoId">
+    <span v-if="!videoId">No video available</span>
+  </div>
 </template>
 
 <style scoped>
@@ -71,5 +90,7 @@ export default {
   height: 400px;
   background-color: black;
   margin: 10px;
+  text-align: center;
+  vertical-align: middle;
 }
 </style>
