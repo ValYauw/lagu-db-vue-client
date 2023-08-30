@@ -1,9 +1,11 @@
 <script>
 import FormRegister from '../components/Login/FormRegister.vue';
+import SocialMediaLogin from '../components/Login/SocialMediaLogin.vue';
 export default {
   name: 'RegisterView',
   components: {
-    FormRegister
+    FormRegister,
+    SocialMediaLogin
   }
 }
 </script>
@@ -16,7 +18,9 @@ export default {
 
   <v-card class="mx-auto px-6 py-8" max-width="500px">
     <FormRegister />
+    <SocialMediaLogin />
   </v-card>
+
 </v-sheet>
 
 </template>

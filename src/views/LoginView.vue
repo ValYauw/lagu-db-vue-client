@@ -1,9 +1,11 @@
 <script>
 import FormLogin from '../components/Login/FormLogin.vue';
+import SocialMediaLogin from '../components/Login/SocialMediaLogin.vue';
 export default {
   name: 'LoginView',
   components: {
-    FormLogin
+    FormLogin,
+    SocialMediaLogin
   }
 }
 </script>
@@ -16,7 +18,9 @@ export default {
 
   <v-card class="mx-auto px-6 py-8" max-width="500px">
     <FormLogin />
+    <SocialMediaLogin />
   </v-card>
+
 </v-sheet>
 
 </template>
