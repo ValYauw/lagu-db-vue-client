@@ -38,7 +38,7 @@ export default {
       }).join(', ') : null;
     },
     timedLyrics() {
-      return this.song?.TimedLyrics?.length ? this.song.TimedLyrics[0] : null;
+      return this.song?.TimedLyric ? this.song.TimedLyric.parsedSrt : null;
     },
     youtubeVideoUrl() {
       const regex = [
@@ -69,7 +69,7 @@ export default {
   },
   async created() {
     this.song = await this.getSong(this.id);
-    console.log(this.song.TimedLyrics);
+    // console.log(this.song.TimedLyrics);
   }
 }
 </script>

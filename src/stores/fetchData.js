@@ -69,10 +69,6 @@ export const useFetchDataStore = defineStore('fetchData', {
         let { data } = await axios.get(
           `${this.$SERVER_URL}/songs/${id}`
         );
-        data.TimedLyrics = data.TimedLyrics.map(el => {
-          const obj = parser.fromVtt(el.timedLyrics, 'ms');
-          return obj;
-        });
         return data;
       } catch(err) {
         this.$fireErrorMessage(err);
@@ -85,6 +81,34 @@ export const useFetchDataStore = defineStore('fetchData', {
         this.isLoading = true;
         let { data } = await axios.get(
           `${this.$SERVER_URL}/artists/${id}`
+        );
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getSongsByArtist(id, fetched=0) {
+      try {
+        this.isLoading = true;
+        let query = fetched ? '' : `?offset=${fetched}`;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/artists/${id}/songs${query}`
+        );
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getAlbumsByArtist(id, fetched=0) {
+      try {
+        this.isLoading = true;
+        let query = fetched ? '' : `?offset=${fetched}`;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/artists/${id}/albums${query}`
         );
         return data;
       } catch(err) {
