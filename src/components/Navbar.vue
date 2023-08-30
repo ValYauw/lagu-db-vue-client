@@ -32,9 +32,21 @@ export default {
 
     <v-btn>
       <v-icon icon="mdi-playlist-music-outline"></v-icon>
-      <RouterLink to="/songs" class="navlink">
-        Browse
-      </RouterLink>
+      Browse
+      <v-menu activator="parent">
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in ['Songs', 'Artists']"
+            :key="index"
+          >
+            <v-list-item-title>
+              <RouterLink :to="`/${item.toLowerCase()}`" class="navlink">
+                {{ item }}
+              </RouterLink>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>      
     </v-btn>
 
     <v-btn>
