@@ -33,6 +33,13 @@ export default {
       </RouterLink>
     </v-btn>
 
+    <v-btn>
+      <v-icon icon="mdi-magnify"></v-icon>
+      <RouterLink to="/search" class="navlink">
+        Search
+      </RouterLink>
+    </v-btn>
+
     <v-btn v-if="!isLoggedIn">
       <v-icon icon="mdi-login"></v-icon>
       <RouterLink to="/login" class="navlink">
