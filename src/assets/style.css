@@ -42,3 +42,13 @@ a:visited {
 .song-card > .info {
   width: 30%;
 }
+
+.brand-header {
+  font-family: 'Karla', 'Calibri', sans-serif !important;
+  color: #21118a;
+  text-shadow: 0px 2px 20px #ff7200a8;
+}
+
+.brand-stripped {
+  font-family: 'Karla', 'Calibri', sans-serif !important;
+}

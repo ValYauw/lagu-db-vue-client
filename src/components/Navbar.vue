@@ -18,6 +18,7 @@ export default {
 
   <v-app-bar
     color="deep-orange-darken-1"
+    scroll-behavior="hide" scroll-threshold="500"
   >
 
     <template v-slot:prepend>
@@ -26,7 +27,7 @@ export default {
 
     <v-app-bar-title>
       <RouterLink to="/" class="navlink">
-        LaguDB
+        <span class="brand-stripped">LaguDB</span>
       </RouterLink>
     </v-app-bar-title>
 
