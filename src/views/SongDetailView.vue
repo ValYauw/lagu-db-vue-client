@@ -65,6 +65,9 @@ export default {
   },
   async created() {
     this.song = await this.getSong(this.id);
+  }, 
+  async beforeRouteUpdate(to, from) {
+    this.song = await this.getSong(to.params.id);
   }
 }
 </script>

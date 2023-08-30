@@ -53,6 +53,16 @@ export default {
       'getArtist', 'getSongsByArtist', 'getAlbumsByArtist',
       'getRecentYouTubeVideos', 'getPopularRatedVocaDBSongs'
     ]),
+    fetchData(id) {
+      this.getArtist(id).then((data) => this.artist = data);
+      this.getSongsByArtist(id).then((data) => {
+        this.count = data.count;
+        this.numPages = Math.ceil(data.count / 20);
+        this.songs = new Array(this.numPages).fill(null);
+        this.songs[0] = data.data;
+        this.currentPage = 1;
+      });
+    }
   },
   watch: {
     artist(newValue, oldValue) {
@@ -69,16 +79,13 @@ export default {
     }
   },
   created() {
-    const id = this.id;
-    this.getArtist(id).then((data) => this.artist = data);
-    this.getSongsByArtist(id).then((data) => {
-      this.count = data.count;
-      this.numPages = Math.ceil(data.count / 20);
-      this.songs = new Array(this.numPages).fill(null);
-      this.songs[0] = data.data;
-      this.currentPage = 1;
-    });
+    this.fetchData(this.id);
     // this.getAlbumsByArtist(id).then((data) => this.albums = data);
+  }, 
+  async beforeRouteUpdate(to, from) {
+    this.ytRecentVideos = null;
+    this.vocadbReport = null;
+    this.fetchData(to.params.id);
   }
 }
 </script>
