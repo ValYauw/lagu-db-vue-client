@@ -1,0 +1,43 @@
+.iconlink::before {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: 0 .1em 0 .1em;
+	vertical-align: -0.15em
+}
+
+span.iconlink.bb::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/BB-ico.png');
+}
+span.iconlink.bc::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/BC-ico.png');
+}
+span.iconlink.nem::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/NEM-ico.png');
+}
+span.iconlink.nn::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/NN-ico.png');
+}
+span.iconlink.pp::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/PP-ico.jpg');
+}
+span.iconlink.sc::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/SC-ico.png');
+}
+span.iconlink.sp::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/SP-ico.png');
+}
+span.iconlink.yt::before {
+	content: '';
+	background-image: url('@pub/brand-favicons/YT-ico.png');
+}

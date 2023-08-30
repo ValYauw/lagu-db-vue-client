@@ -1,0 +1,54 @@
+a:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+a:hover {
+  opacity: 1;
+}
+
+a:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.loader {
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.song-card, .artist-card {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: solid 1px #BF360C;
+}
+
+.song-card > .playlinks {
+  max-width: 400px;
+  min-width: 40px;
+  width: 60px;
+}
+
+.song-card > .title {
+  width: 60%;
+}
+
+.song-card > .info {
+  width: 30%;
+}
+
+.brand-header {
+  font-family: 'Karla', 'Calibri', sans-serif !important;
+  color: #21118a;
+  text-shadow: 0px 2px 20px #ff7200a8;
+}
+
+.brand-stripped {
+  font-family: 'Karla', 'Calibri', sans-serif !important;
+}
