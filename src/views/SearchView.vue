@@ -99,11 +99,15 @@ export default {
 
     <Loader :isLoading="isLoading" v-if="isLoading" />
 
-    <div>
-      <SearchCard 
-        v-for="datum in pageData"
-        v-bind="{entity: this.entity, ...datum}"
-      />
+    <div v-if="count !== null">
+      <h2 v-if="pageData.length === 0">Sorry, we couldn't find anything</h2>
+      <div v-else>
+        <h4>Found {{ count }} result(s).</h4>
+        <SearchCard 
+          v-for="datum in pageData"
+          v-bind="{entity: this.entity, ...datum}"
+        />
+      </div>
     </div>
 
     <v-pagination 
