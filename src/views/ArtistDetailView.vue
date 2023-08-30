@@ -80,10 +80,12 @@ export default {
 
   </v-card>
 
-  <SongCard
-    v-for="song in songs.data"
-    v-bind="song"
-  />
+  <v-card class="mx-auto">
+    <SongCard
+      v-for="song in songs.data"
+      v-bind="song"
+    />
+  </v-card>  
 
 </v-sheet>
 

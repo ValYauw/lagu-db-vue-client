@@ -69,7 +69,6 @@ export default {
   },
   async created() {
     this.song = await this.getSong(this.id);
-    // console.log(this.song.TimedLyrics);
   }
 }
 </script>
@@ -82,7 +81,7 @@ export default {
 
   <div>
 
-    <YouTubeEmbed 
+    <YouTubeEmbed
       :videoId="youtubeVideoUrl" 
       @send-current-time="setCurrentPlayTime"
     />

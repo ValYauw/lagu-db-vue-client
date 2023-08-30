@@ -43,12 +43,20 @@ export default {
         });
         this.player = player;
         setInterval(() => {
-          this.currentTime = player.getCurrentTime();
-          this.$emit('sendCurrentTime', this.currentTime);
+          if (!player) return;
+          let currentTime = player?.getCurrentTime();
+          this.currentTime = currentTime;
+          if (currentTime) this.$emit('sendCurrentTime', currentTime);
         }, 200);
       }
 
     }
+  },
+  created() {
+    console.log('Loading for the first time', this.videoId);
+    if (this.videoId) {
+      this.embed();
+    } 
   }
 }
 </script>

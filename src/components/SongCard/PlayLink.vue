@@ -1,13 +1,45 @@
 <script>
 const recognizedDomains = [
-  { regex: /^https?:\/\/www\.youtube\.com\/watch\?v=/, domainName: 'YouTube' },
-  { regex: /^https?:\/\/youtu\.be/, domainName: 'YouTube' },
-  { regex: /^https?:\/\/open\.spotify\.com/, domainName: 'Spotify' },
-  { regex: /^https?:\/\/soundcloud\.com/, domainName: 'SoundCloud' },
-  { regex: /^https?:\/\/(?:[^\/]+)\.bandcamp\.com/, domainName: 'Bandcamp' },
-  { regex: /^https?:\/\/www\.nicovideo\.jp\/watch/, domainName: 'Niconico' },
-  { regex: /^https?:\/\/www\.bilibili\.com\/video/, domainName: 'bilibili'},
-  { reges: /^https?:\/\/piapro\.jp\/t/, domainName: 'piapro' }
+  { 
+    regex: /^https?:\/\/www\.youtube\.com\/watch\?v=/, 
+    domainName: 'YouTube',
+    cssClass: 'yt'
+  },
+  { 
+    regex: /^https?:\/\/youtu\.be/, 
+    domainName: 'YouTube',
+    cssClass: 'yt'
+  },
+  { 
+    regex: /^https?:\/\/open\.spotify\.com/, 
+    domainName: 'Spotify',
+    cssClass: 'sp'
+  },
+  { 
+    regex: /^https?:\/\/soundcloud\.com/, 
+    domainName: 'SoundCloud',
+    cssClass: 'sc' 
+  },
+  { 
+    regex: /^https?:\/\/(?:[^\/]+)\.bandcamp\.com/, 
+    domainName: 'Bandcamp',
+    cssClass: 'bc'
+  },
+  { 
+    regex: /^https?:\/\/www\.nicovideo\.jp\/watch/, 
+    domainName: 'Niconico',
+    cssClass: 'nn'
+  },
+  { 
+    regex: /^https?:\/\/www\.bilibili\.com\/video/, 
+    domainName: 'bilibili',
+    cssClass: 'bb'
+  },
+  { 
+    regex: /^https?:\/\/piapro\.jp\/t/, 
+    domainName: 'piapro',
+    cssClass: 'pp'
+  }
 ]
 
 export default {
@@ -17,33 +49,21 @@ export default {
     isInactive: [Boolean, null]
   },
   computed: {
-    domain() {
-      let foundDomain = null;
-      for (let {regex, domainName} of recognizedDomains) {
-        if (this.songURL.match(regex)) {
-          foundDomain = domainName;
+    match() {
+      let foundMatch = null;
+      for (let obj of recognizedDomains) {
+        if (this.songURL.match(obj.regex)) {
+          foundMatch = obj;
           break;
         }
       }
-      return foundDomain;
+      return foundMatch;
     },
-    icon() {
-      if (!this.domain) return 'mdi-open-in-new';
-      switch (this.domain) {
-        case 'YouTube':
-          return 'mdi-youtube';
-        case 'Spotify':
-          return 'mdi-spotify';
-        case 'SoundCloud':
-          return 'mdi-soundcloud';
-        case 'Bandcamp':
-          return 'mdi-album';
-        case 'Niconico':
-        case 'bilibili':
-        case 'piapro':
-        default:
-          return 'mdi-video';
-      }
+    domain() {
+      return this.match?.domainName;
+    },
+    cssClass() {
+      return this.match?.cssClass;
     }
   }
 }
@@ -52,7 +72,7 @@ export default {
 <template>
 
 <a :href="songURL" :title="domain" target="_blank">
-  <v-icon :icon="icon" :class="isInactive ? 'disabled' : null"></v-icon>
+  <span class="iconlink" :class="cssClass" :title="domain"></span>
 </a>
 
 </template>
