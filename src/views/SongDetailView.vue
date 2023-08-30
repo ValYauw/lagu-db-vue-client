@@ -107,6 +107,8 @@ export default {
 
       <div id="right-container">
 
+        <v-card-title class="text-h5">Lyrics</v-card-title>
+
         <TimedLyrics 
           :timedLyrics="timedLyrics"
           :currentTime="currentTime"
