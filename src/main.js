@@ -12,7 +12,8 @@ import vue3GoogleLogin from 'vue3-google-login';
 // import LoadScript from 'vue-plugin-load-script';
 
 const pinia = createPinia();
-pinia.use(() => { return {$SERVER_URL: 'http://localhost:3000'}});
+// pinia.use(() => { return {$SERVER_URL: 'http://localhost:3000'}});
+pinia.use(() => { return {$SERVER_URL: 'https://h8-iproject.vyauw.online' }});
 pinia.use(toastPlugin);
 
 const app = createApp(App);
