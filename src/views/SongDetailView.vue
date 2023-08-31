@@ -91,35 +91,37 @@ export default {
 
     <v-divider></v-divider>
 
-    <div id="flex-container">
-
-      <div id="playlinks" class="w-auto d-flex">
-
+    <v-row>
+      <v-col lg="auto" sm="12" xs="12">
         <YouTubeEmbed
           :videoId="youtubeVideoUrl" 
           @send-current-time="setCurrentPlayTime"
         />
+      </v-col>
 
+      <v-col cols="5" lg="5" sm="12" xs="12">
+        <div id="right-container" class="bg-brown-lighten-4">
+
+          <v-card-title class="text-h5">Lyrics</v-card-title>
+
+          <TimedLyrics 
+            :timedLyrics="timedLyrics"
+            :currentTime="currentTime"
+          />
+
+        </div>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
         <div id="info-table">
           <TableSongData 
             v-bind="{PlayLinks: song?.PlayLinks, Artists: song?.Artists, Genres: song?.Genres}"
           />
         </div>
-
-      </div>
-
-      <div id="right-container" class="bg-brown-lighten-4">
-
-        <v-card-title class="text-h5">Lyrics</v-card-title>
-
-        <TimedLyrics 
-          :timedLyrics="timedLyrics"
-          :currentTime="currentTime"
-        />
-        
-      </div>
-
-    </div>
+      </v-col>
+    </v-row>
 
   </v-card>
 
