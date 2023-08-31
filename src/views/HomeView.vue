@@ -7,7 +7,7 @@ export default {
 <template>
 
 <v-img class="container"
-  src="/public/brand-header.jpg"
+  src="brand-header.jpg"
   cover
 >
   <div class="brand">
