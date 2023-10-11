@@ -12,8 +12,7 @@ import vue3GoogleLogin from 'vue3-google-login';
 // import LoadScript from 'vue-plugin-load-script';
 
 const pinia = createPinia();
-// pinia.use(() => { return {$SERVER_URL: 'http://localhost:3000'}});
-pinia.use(() => { return {$SERVER_URL: 'https://h8-iproject.vyauw.online' }});
+pinia.use(() => { return {$SERVER_URL: import.meta.env.VITE_API_URL }});
 pinia.use(toastPlugin);
 
 const app = createApp(App);
@@ -22,7 +21,7 @@ app
   .use(pinia)
   .use(vuetify)
   .use(vue3GoogleLogin, {
-    clientId: '1082800812723-71k09ctona7gsrvu7sve1uu58sq51dam.apps.googleusercontent.com'
+    clientId: import.meta.env.VITE_GOOGLE_LOGIN_CLIENT_ID
   })
   .use(router)
   .mount('#app');

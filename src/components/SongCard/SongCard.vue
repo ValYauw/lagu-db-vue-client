@@ -10,8 +10,8 @@ export default {
     aliases: [Array, null],
     releaseDate: String,
     songType: String,
-    Artists: Array,
-    PlayLinks: Array
+    artists: Array,
+    links: Array
   },
   components: {
     ArtistLink,
@@ -19,28 +19,35 @@ export default {
   },
   computed: {
     renderedDate() {
-      return new Intl.DateTimeFormat('en-US', { 
-        dateStyle: 'long' 
-      }).format(new Date(this.releaseDate))
+      if (this.releaseDate) {
+        return 'Released ' + new Intl.DateTimeFormat('en-US', { 
+          dateStyle: 'long' 
+        }).format(new Date(this.releaseDate))
+      } else {
+        return `Unknown release date`
+      }
     },
     renderedAliases() {
       return this.aliases ? this.aliases?.map(alias => {
         return `<span class="alias">${alias}</span>`
       }).join(', ') : null;
     }
+  },
+  created() {
+    console.log('Creating', this.id);
   }
 }
 </script>
 
 <template>
 
-<v-card class="mx-auto">
+<v-card class="mx-2 my-2">
 
   <div class="bg-deep-orange-lighten-5 song-card">
 
     <div class="playlinks">
       <PlayLink 
-        v-for="playLink in PlayLinks"
+        v-for="playLink in links"
         v-bind="playLink"
       />
     </div>
@@ -66,14 +73,14 @@ export default {
       <p>
         <v-chip-group>
           <ArtistLink 
-            v-for="artist in Artists" 
+            v-for="artist in artists" 
             v-bind="artist" 
           />
         </v-chip-group>
       </p>
       <p>
         <v-card-subtitle>
-          Released {{ renderedDate }}
+          {{ renderedDate }}
         </v-card-subtitle>
       </p>
     </div>

@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import router from '@/router';
 
+import { NUM_SONGS_PER_PAGE, NUM_ARTISTS_PER_PAGE, NUM_SEARCH_RESULTS_PER_PAGE } from '../config/pagination';
+
 export const useFetchDataStore = defineStore('fetchData', {
   state: () => {
     return { 
@@ -10,13 +12,25 @@ export const useFetchDataStore = defineStore('fetchData', {
   },
   getters: { },
   actions: {
+    async getGenres() {
+      try {
+        this.isLoading = true;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/genres`
+        );
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     async getSongs(page=1) {
       try {
         this.isLoading = true;
-        let query = this.page <= 1 ? '' : `?offset=${(page - 1) * 20}`;
-        console.log(`${this.$SERVER_URL}/songs${query}`);
+        let query = this.page <= 1 ? '' : `offset=${(page - 1) * NUM_SONGS_PER_PAGE}`;
         let { data } = await axios.get(
-          `${this.$SERVER_URL}/songs${query}`
+          `${this.$SERVER_URL}/songs?limit=${NUM_SONGS_PER_PAGE}&${query}`
         );
         return data;
       } catch(err) {
@@ -28,9 +42,36 @@ export const useFetchDataStore = defineStore('fetchData', {
     async getArtists(page=1) {
       try {
         this.isLoading = true;
-        let query = this.page <= 1 ? '' : `?offset=${(page - 1) * 20}`;
+        let query = this.page <= 1 ? '' : `offset=${(page - 1) * NUM_ARTISTS_PER_PAGE}`;
         let { data } = await axios.get(
-          `${this.$SERVER_URL}/artists${query}`
+          `${this.$SERVER_URL}/artists?limit=${NUM_ARTISTS_PER_PAGE}&${query}`
+        );
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getGenre(id) {
+      try {
+        this.isLoading = true;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/genres/${id}`
+        );
+        return data;
+      } catch(err) {
+        this.$fireErrorMessage(err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getSongsByGenre(id, page=1) {
+      try {
+        this.isLoading = true;
+        let query = this.page <= 1 ? '' : `offset=${(page - 1) * NUM_SONGS_PER_PAGE}`;
+        let { data } = await axios.get(
+          `${this.$SERVER_URL}/genres/${id}/songs?limit=${NUM_SONGS_PER_PAGE}&${query}`
         );
         return data;
       } catch(err) {
@@ -68,9 +109,9 @@ export const useFetchDataStore = defineStore('fetchData', {
     async getSongsByArtist(id, fetched=0) {
       try {
         this.isLoading = true;
-        let query = fetched ? '' : `?offset=${fetched}`;
+        let query = fetched ? '' : `offset=${fetched}`;
         let { data } = await axios.get(
-          `${this.$SERVER_URL}/artists/${id}/songs${query}`
+          `${this.$SERVER_URL}/artists/${id}/songs?limit=${NUM_SONGS_PER_PAGE}&${query}`
         );
         return data;
       } catch(err) {
@@ -79,24 +120,25 @@ export const useFetchDataStore = defineStore('fetchData', {
         this.isLoading = false;
       }
     },
-    async getAlbumsByArtist(id, fetched=0) {
-      try {
-        this.isLoading = true;
-        let query = fetched ? '' : `?offset=${fetched}`;
-        let { data } = await axios.get(
-          `${this.$SERVER_URL}/artists/${id}/albums${query}`
-        );
-        return data;
-      } catch(err) {
-        this.$fireErrorMessage(err);
-      } finally {
-        this.isLoading = false;
-      }
-    },
+    // async getAlbumsByArtist(id, fetched=0) {
+    //   try {
+    //     this.isLoading = true;
+    //     let query = fetched ? '' : `?offset=${fetched}`;
+    //     let { data } = await axios.get(
+    //       `${this.$SERVER_URL}/artists/${id}/albums${query}`
+    //     );
+    //     return data;
+    //   } catch(err) {
+    //     this.$fireErrorMessage(err);
+    //   } finally {
+    //     this.isLoading = false;
+    //   }
+    // },
     async search(term, entity='song', page=1) {
       try {
         this.isLoading = true;
-        let url = `${this.$SERVER_URL}/search/${entity}s?title=${term}`;
+        let query = this.page <= 1 ? '' : `offset=${(page - 1) * NUM_SEARCH_RESULTS_PER_PAGE}`;
+        let url = `${this.$SERVER_URL}/search/${entity}s?title=${term}&limit=${NUM_SEARCH_RESULTS_PER_PAGE}&${query}`;
         let { data } = await axios.get(url);
         return data;
       } catch(err) {

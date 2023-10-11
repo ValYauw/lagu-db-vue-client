@@ -8,6 +8,8 @@ import SongCard from '../components/SongCard/SongCard.vue';
 import YouTubeReport from '../components/ArtistDetails/YouTubeReport.vue';
 import VocadbReport from '../components/ArtistDetails/VocadbReport.vue';
 
+import { NUM_SONGS_PER_PAGE } from '../config/pagination';
+
 export default {
   name: 'ArtistDetailView',
   components: {
@@ -57,7 +59,7 @@ export default {
       this.getArtist(id).then((data) => this.artist = data);
       this.getSongsByArtist(id).then((data) => {
         this.count = data.count;
-        this.numPages = Math.ceil(data.count / 20);
+        this.numPages = Math.ceil(data.count / NUM_SONGS_PER_PAGE);
         this.songs = new Array(this.numPages).fill(null);
         this.songs[0] = data.data;
         this.currentPage = 1;
@@ -66,7 +68,7 @@ export default {
   },
   watch: {
     artist(newValue, oldValue) {
-      for (let link of newValue?.ArtistLinks) {
+      for (let link of newValue?.links) {
         const { webURL } = link;
         if (/^https?:\/\/www\.youtube\.com\/channel\//.exec(webURL)) {
           this.getRecentYouTubeVideos(webURL)
@@ -75,6 +77,14 @@ export default {
           this.getPopularRatedVocaDBSongs(webURL)
             .then((data) => this.vocadbReport = data);
         }
+      }
+    },
+    async currentPage(newValue, oldValue) {
+      if (!this.songs[newValue - 1]) {
+        const data = await this.getSongsByArtist(newValue);
+        this.count = data.count;
+        this.numPages = Math.ceil(data.count / NUM_SONGS_PER_PAGE);
+        this.songs[newValue - 1] = data.data;
       }
     }
   },
@@ -108,7 +118,7 @@ export default {
         </v-img>
       </div>
 
-      <ArtistExternalLinks :ArtistLinks="artist?.ArtistLinks" />
+      <ArtistExternalLinks :links="artist?.links" />
 
     </div>
 
@@ -145,6 +155,7 @@ export default {
         <Loader :isLoading="isLoading" v-if="isLoading" />
         <SongCard
           v-for="song in pageData" 
+          :key="song.id"
           v-bind="song"
         />
 

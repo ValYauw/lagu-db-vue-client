@@ -22,7 +22,7 @@ export default {
 
 <template>
 
-<v-card class="mx-auto">
+<v-card class="mx-auto my-2">
 
   <div class="bg-deep-orange-lighten-5 artist-card">
 

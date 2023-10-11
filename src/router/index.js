@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue')
     },
     {
+      path: '/genres',
+      name: 'genres',
+      component: () => import('../views/GenresView.vue')
+    },
+    {
       path: '/songs',
       name: 'songs',
       component: () => import('../views/SongsView.vue')
@@ -28,6 +33,12 @@ const router = createRouter({
       path: '/artists',
       name: 'artists',
       component: () => import('../views/ArtistsView.vue')
+    },
+    {
+      path: '/genres/:id',
+      name: 'genre',
+      props: true,
+      component: () => import('../views/GenreDetailView.vue')
     },
     {
       path: '/songs/:id',

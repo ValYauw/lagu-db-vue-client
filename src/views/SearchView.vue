@@ -5,6 +5,8 @@ import { useFetchDataStore } from '@/stores/fetchData';
 import Loader from '../components/Loader.vue';
 import SearchCard from '../components/SearchCard/SearchCard.vue';
 
+import { NUM_SEARCH_RESULTS_PER_PAGE } from '../config/pagination';
+
 export default {
   name: 'SearchView',
   data() {
@@ -36,7 +38,7 @@ export default {
       if (!term) return;
       const data = await this.search(term, entity.toLowerCase());
       this.count = data.count;
-      this.numPages = Math.ceil(data.count / 20);
+      this.numPages = Math.ceil(data.count / NUM_SEARCH_RESULTS_PER_PAGE);
       this.data = new Array(this.numPages).fill(null);
       this.data[0] = data.data;
       this.currentPage = 1;
@@ -51,7 +53,7 @@ export default {
       if (!this.data[newValue - 1]) {
         const data = await this.search(term, entity.toLowerCase(), newValue);
         this.count = data.count;
-        this.numPages = Math.ceil(data.count / 20);
+        this.numPages = Math.ceil(data.count / NUM_SEARCH_RESULTS_PER_PAGE);
         this.data[newValue - 1] = data.data;
       }
     }
@@ -70,7 +72,7 @@ export default {
 
     <v-select id="category"
       hide-details
-      :items="['Song', 'Artist', 'Album']"
+      :items="['Song', 'Artist']"
       v-model="entity"
       style="max-width: 180px;"
       required

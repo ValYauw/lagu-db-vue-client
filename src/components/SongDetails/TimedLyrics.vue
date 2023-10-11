@@ -84,7 +84,7 @@ export default {
 <template>
 <!-- <div>{{ currentTimedLyrics?.text }}</div> -->
 
-  <div v-if="!timedLyrics" class="mx-auto my-auto">
+  <div v-if="!timedLyrics" class="mx-auto my-auto w-100">
     <v-card-title>
       Sorry!
     </v-card-title>
@@ -93,7 +93,7 @@ export default {
     </v-card-subtitle>
   </div>
 
-  <v-list id="lyrics" lines="one" class="overflow-y-auto elevation-5" v-else>
+  <v-list id="lyrics" lines="one" class="overflow-y-auto elevation-5 w-100" v-else>
     <v-list-item
       v-for="(timedLyric, index) in timedLyrics"
       :key="index"

@@ -33,19 +33,16 @@ export default {
         return `<span class="alias">${alias}</span>`
       }).join(', ') : null;
     },
-    timedLyrics() {
-      return this.song?.TimedLyric ? this.song.TimedLyric.parsedSrt : null;
-    },
     youtubeVideoUrl() {
       const regex = [
         /^https?:\/\/www\.youtube\.com\/watch\?v=([^&\*]+)/,
         /^https?:\/\/youtu\.be\/([^&\*]+)/
       ];
 
-      let numPlayLinks = this.song?.PlayLinks ? this.song.PlayLinks.length : 0;
+      let numPlayLinks = this.song?.links ? this.song.links.length : 0;
       let res;
       for (let i=0; i < numPlayLinks; i++) {
-        const playLink = this.song.PlayLinks[i];
+        const playLink = this.song.links[i];
         for (let pattern of regex) {
           res = pattern.exec(playLink.songURL);
           if (res) break;
@@ -105,7 +102,7 @@ export default {
           <v-card-title class="text-h5">Lyrics</v-card-title>
 
           <TimedLyrics 
-            :timedLyrics="timedLyrics"
+            :timedLyrics="song?.timedLyrics"
             :currentTime="currentTime"
           />
 
@@ -117,7 +114,7 @@ export default {
       <v-col>
         <div id="info-table">
           <TableSongData 
-            v-bind="{PlayLinks: song?.PlayLinks, Artists: song?.Artists, Genres: song?.Genres}"
+            v-bind="{links: song?.links, artists: song?.artists, genres: song?.genres}"
           />
         </div>
       </v-col>

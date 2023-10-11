@@ -37,7 +37,7 @@ export default {
       <v-menu activator="parent">
         <v-list>
           <v-list-item
-            v-for="(item, index) in ['Songs', 'Artists']"
+            v-for="(item, index) in ['Genres', 'Songs', 'Artists']"
             :key="index"
           >
             <v-list-item-title>

@@ -6,9 +6,9 @@ import PlayLink from '../SongCard/PlayLink.vue';
 export default {
   name: 'TableSongData',
   props: {
-    PlayLinks: Array,
-    Artists: Array,
-    Genres: Array
+    links: Array,
+    artists: Array,
+    genres: Array
   },
   components: {
     ArtistLink,
@@ -27,7 +27,7 @@ export default {
       <td>
         <div>
           <PlayLink
-            v-for="playLink in PlayLinks" 
+            v-for="playLink in links" 
             v-bind="playLink" 
           />
         </div>
@@ -38,7 +38,7 @@ export default {
       <td>
         <v-chip-group>
           <ArtistLink 
-            v-for="artist in Artists" 
+            v-for="artist in artists" 
             v-bind="artist" 
           />
         </v-chip-group>
@@ -49,7 +49,7 @@ export default {
       <td>
         <v-chip-group>
           <GenreCard 
-            v-for="genre in Genres" 
+            v-for="genre in genres" 
             v-bind="genre" 
           />
         </v-chip-group>

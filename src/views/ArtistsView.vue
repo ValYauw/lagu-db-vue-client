@@ -5,6 +5,8 @@ import { useFetchDataStore } from '@/stores/fetchData';
 import Loader from '../components/Loader.vue';
 import ArtistCard from '../components/ArtistCard/ArtistCard.vue';
 
+import { NUM_ARTISTS_PER_PAGE } from '../config/pagination';
+
 export default {
   name: 'SongsView',
   components: { 
@@ -30,7 +32,7 @@ export default {
       if (!this.artists[newValue - 1]) {
         const data = await this.getArtists(newValue);
         this.count = data.count;
-        this.numPages = Math.ceil(data.count / 20);
+        this.numPages = Math.ceil(data.count / NUM_ARTISTS_PER_PAGE);
         this.artists[newValue - 1] = data.data;
       }
     }
@@ -38,7 +40,7 @@ export default {
   async created() {
     const data = await this.getArtists();
     this.count = data.count;
-    this.numPages = Math.ceil(data.count / 20);
+    this.numPages = Math.ceil(data.count / NUM_ARTISTS_PER_PAGE);
     this.artists = new Array(this.numPages).fill(null);
     this.artists[0] = data.data;
     this.currentPage = 1;
